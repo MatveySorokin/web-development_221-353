@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="my-3">{{ post.title }}</h1>
+<p>{{ post.author }}, {{ post.date.strftime('%d.%m.%Y') }}.</p>
+<div class="row mb-3 container-fluid">
+    <div class="card mb-4">
+        <img class="card-img-top img-fluid p-3 m-auto" src="{{ url_for('static', filename='images/' + post.image_id) }}"
+            alt="Card image cap" style="width: 80%;">
+        <div class="card-body">
+            <p class="card-text">
+                {{ post.text}}
+            </p>
+        </div>
+    </div>
+    <div class="form-container">
+        <form action="/add_comment" method="post">
+            <div class="row border p-2 mb-3">
+                <div class="col-md-12">
+                    <label for="comment" class="mb-3">Оставьте комментарий</label>
+                </div>
+                <textarea name="comment" id="comment" cols="30" rows="5" class="mb-3"></textarea>
+                <button type="submit" class="btn btn-primary mb-3" style="width: auto;">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% for post in posts %}
+<div class="d-flex">
+    <div class="flex-shrink-0">
+        <img src="{{ url_for('static', filename='images/avatar.jpg') }}" class="rounded-circle" style="width: 30px;">
+    </div>
+    <div class="flex-grow-1 ms-3">
+        <h5>{{ post.author }} <small class="text-muted"><i>{{ post.date.strftime('%d.%m.%Y') }}</i></small>
+        </h5>
+        <p>{{ post.text }}</p>
+        {% if post.replies %}
+        {% for reply in post.replies %}
+        <div class="d-flex mt-4">
+            <div class="flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/avatar.jpg') }}" class="rounded-circle"
+                    style="width: 30px;">
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h5>{{ reply.author }} <small class="text-muted"><i>{{ reply.date.strftime('%d.%m.%Y')
+                            }}</i></small></h5>
+                <p>{{ reply.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+{% for comment in post.comments %}
+    <div class="comment">
+        <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+        {% if comment.replies %}
+            <ul>
+                {% for reply in comment.replies %}
+                    <li><strong>{{ reply.author }}</strong>: {{ reply.text }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endfor %}
+
+
+{% endblock %}
