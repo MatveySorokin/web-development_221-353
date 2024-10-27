@@ -1,0 +1,7 @@
+SECRET_KEY='b3baa1cb519a5651c472d1afa1b3f4e04f1adf6909dae88a4cd39adc0ddd9732'
+MYSQL_USER = 'std_2444_sorokin_lab5_221_353'
+MYSQL_PASSWORD = 'Mewtoo10'
+MYSQL_HOST = 'std-mysql'
+MYSQL_DATABASE = 'std_2444_sorokin_lab5_221_353'
+
+ADMIN_ROLE_ID = 1
